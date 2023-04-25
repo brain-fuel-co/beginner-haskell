@@ -1,0 +1,103 @@
+
+* TODO Introduction
+Blargh! Fill me in!
+
+* TODO Using Emacs as a text editor
+Blargh! Fill me in!
+
+* Hello, World and Beyond!
+** First program
+
+We're going to begin with the obligatory "Hello, World!" program. It looks like this.
+
+#+begin_src haskell :tangle hello.hs
+main :: IO ()
+main = putStrLn "Hello, World!"
+#+end_src
+
+The first line is the type signature. It shows us that our program is going to involve some sort of input or output. The second line lets us know exactly what that output is going to be. Namely, "Hello, World!"
+
+** Second program
+
+Our second program will be similar, but will give you a personalized greeting. It looks like this. See if you can guess what it does before you run it.
+
+#+begin_src haskell :tangle basic-greeting.hs
+
+main :: IO ()
+main = do
+  putStrLn "What is your name?"
+  name <- getLine
+  putStrLn ("Hello, " ++ name ++ "!")
+
+#+end_src
+
+** Third program
+
+Our third program will be a touch more involved, but will use the same principles. Here, we are going to give the choice of being polite or rude to the user, and respond to some more info. Let's see if you can guess what it does before you run it.
+
+Here's the initial greeting we give our user. We also make a data type that tells us whether we should be polite or not:
+
+#+begin_src haskell :tangle involved-greeting.hs
+
+initialGreeting :: String
+initialGreeting = "Hello, Dear User, would you like for me to be polite or rude today?" ++
+                  "\n" ++
+                  "Please type 1 for 'rude', and anything else for 'polite'."
+
+data ShouldBePolite = Yes
+                    | No
+
+inferPolite :: String -> ShouldBePolite
+inferPolite input = stringToPolite input
+  where
+    stringToPolite "1" = No
+    stringToPolite _ = Yes
+
+#+end_src
+
+Now, we ask the user for his or her name:
+
+#+begin_src haskell :tangle involved-greeting.hs
+
+nameGreeting :: ShouldBePolite -> String
+nameGreeting Yes = "Hello, good sir/ma'am. Pardon me for the intrusion, but what is your name?"
+nameGreeting No = "Hey, jerk! What's yer name?"
+
+#+end_src
+
+Now, we prompt for location:
+
+#+begin_src haskell :tangle involved-greeting.hs
+
+locationGreeting :: ShouldBePolite -> String -> String
+locationGreeting Yes  name = "So sorry, but I'm quite curious, " ++ name ++ ". Where are you from?"
+locationGreeting No  name = "You look funny, " ++ name ++ "! Where ya from?"
+
+#+end_src
+
+Now, we compose our final greeting:
+
+#+begin_src haskell :tangle involved-greeting.hs
+
+finalGreeting :: ShouldBePolite -> String -> String -> String
+finalGreeting Yes name location = "How lovely, " ++ name ++ "! I have an immense appreciation for folks from " ++ location ++ "!"
+finalGreeting No name location = "Ya better watch yer back, " ++ name ++ "! We don't like folks from " ++ location ++ " around here! They stink and don't belong with proper folk like us!"
+
+#+end_src
+
+Now, we put all the pieces together in our main function:
+
+#+begin_src haskell :tangle involved-greeting.hs
+
+main :: IO ()
+main = do
+  putStrLn initialGreeting
+  rudeInput <- getLine
+  let shouldBePolite = inferPolite rudeInput
+  putStrLn $ nameGreeting shouldBePolite
+  nameInput <- getLine
+  putStrLn $ locationGreeting shouldBePolite nameInput
+  locationInput <- getLine
+  putStrLn $ finalGreeting shouldBePolite nameInput locationInput
+
+#+end_src
