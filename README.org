@@ -50,9 +50,8 @@ Here's the initial greeting we give our user. We also make a data type that tell
 #+begin_src haskell :tangle involved-greeting.hs
 
 initialGreeting :: String
-initialGreeting = "Hello, Dear User, would you like for me to be polite or rude today?" ++
-                  "\n" ++
-                  "Please type 1 for 'rude', and anything else for 'polite'."
+initialGreeting = "Hello, Dear User, would you like for me to be polite or rude today?\n\
+                  \Please type 1 for 'rude', and anything else for 'polite'."
 
 data ShouldBePolite = Yes
                     | No
