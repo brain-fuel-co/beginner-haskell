@@ -11,8 +11,10 @@ Blargh! Fill me in!
 We're going to begin with the obligatory "Hello, World!" program. It looks like this.
 
 #+begin_src haskell :tangle hello.hs
+
 main :: IO ()
 main = putStrLn "Hello, World!"
+
 #+end_src
 
 The first line is the type signature. It shows us that our program is going to involve some sort of input or output. The second line lets us know exactly what that output is going to be. Namely, "Hello, World!"
@@ -33,7 +35,15 @@ main = do
 
 ** Third program
 
-Our third program will be a touch more involved, but will use the same principles. Here, we are going to give the choice of being polite or rude to the user, and respond to some more info. Let's see if you can guess what it does before you run it.
+Our third program will be a touch more involved, but will use the same principles. Here, we are going to give the choice of being polite or rude to the user, and respond to some more info. Let's see if you can guess what the whole thing does before you run it.
+
+Before we begin, we need our imports:
+
+#+begin_src haskell :tangle involved-greeting.hs
+
+import Text.Printf
+
+#+end_src
 
 Here's the initial greeting we give our user. We also make a data type that tells us whether we should be polite or not:
 
@@ -70,8 +80,9 @@ Now, we prompt for location:
 #+begin_src haskell :tangle involved-greeting.hs
 
 locationGreeting :: ShouldBePolite -> String -> String
-locationGreeting Yes  name = "So sorry, but I'm quite curious, " ++ name ++ ". Where are you from?"
-locationGreeting No  name = "You look funny, " ++ name ++ "! Where ya from?"
+locationGreeting Yes name = printf "So sorry, but I'm quite curious, %s. \
+                                   \Where are you from?" name
+locationGreeting No  name = printf "You look funny, %s! Where ya from?" name
 
 #+end_src
 
@@ -80,8 +91,11 @@ Now, we compose our final greeting:
 #+begin_src haskell :tangle involved-greeting.hs
 
 finalGreeting :: ShouldBePolite -> String -> String -> String
-finalGreeting Yes name location = "How lovely, " ++ name ++ "! I have an immense appreciation for folks from " ++ location ++ "!"
-finalGreeting No name location = "Ya better watch yer back, " ++ name ++ "! We don't like folks from " ++ location ++ " around here! They stink and don't belong with proper folk like us!"
+finalGreeting Yes name location = printf "How lovely, %s!\n\
+                                         \I have an immense appreciation for folks from %s!" name location
+finalGreeting No name location = printf "Ya better watch yer back, %s!\n\
+                                        \We don't like folks from %s around here!\n\
+                                        \They stink and don't belong with proper folk like us!" name location
 
 #+end_src
 
@@ -92,8 +106,8 @@ Now, we put all the pieces together in our main function:
 main :: IO ()
 main = do
   putStrLn initialGreeting
-  rudeInput <- getLine
-  let shouldBePolite = inferPolite rudeInput
+  politenessInput <- getLine
+  let shouldBePolite = inferPolite politenessInput
   putStrLn $ nameGreeting shouldBePolite
   nameInput <- getLine
   putStrLn $ locationGreeting shouldBePolite nameInput
