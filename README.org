@@ -35,7 +35,7 @@ main = do
 
 ** Third program
 
-Our third program will involve both making a decision based on input.
+Our third program will involve making a decision based on input.
 
 #+begin_src haskell :tangle decision-greeting.hs
 
