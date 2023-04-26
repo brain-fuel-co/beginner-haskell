@@ -35,6 +35,24 @@ main = do
 
 ** Third program
 
+Our third program will involve both making a decision based on input.
+
+#+begin_src haskell :tangle decision-greeting.hs
+
+main = do
+  putStrLn "Please enter \"R\" or \"r\" if you want me to be rude\n\
+           \Anything else if you want me to be polite. :-)"
+  rude <- getLine
+  putStrLn $ greeting rude
+    where
+      greeting "R" = greeting "r"
+      greeting "r" = "Blah! You suck!"
+      greeting _   = "Hello, good sir/ma'am!"
+
+#+end_src
+
+** Fourth program
+
 Our third program will be a touch more involved, but will use the same principles. Here, we are going to give the choice of being polite or rude to the user, and respond to some more info. Let's see if you can guess what the whole thing does before you run it.
 
 Before we begin, we need our imports:
@@ -42,6 +60,23 @@ Before we begin, we need our imports:
 #+begin_src haskell :tangle involved-greeting.hs
 
 import Text.Printf
+
+#+end_src
+
+Here is the general structure of the program:
+
+#+begin_src haskell :tangle involved-greeting.hs
+
+main :: IO ()
+main = do
+  putStrLn initialGreeting
+  politenessInput <- getLine
+  let shouldBePolite = inferPolite politenessInput
+  putStrLn $ nameGreeting shouldBePolite
+  nameInput <- getLine
+  putStrLn $ locationGreeting shouldBePolite nameInput
+  locationInput <- getLine
+  putStrLn $ finalGreeting shouldBePolite nameInput locationInput
 
 #+end_src
 
@@ -105,19 +140,3 @@ finalGreeting No name location =
 
 #+end_src
 
-Now, we put all the pieces together in our main function:
-
-#+begin_src haskell :tangle involved-greeting.hs
-
-main :: IO ()
-main = do
-  putStrLn initialGreeting
-  politenessInput <- getLine
-  let shouldBePolite = inferPolite politenessInput
-  putStrLn $ nameGreeting shouldBePolite
-  nameInput <- getLine
-  putStrLn $ locationGreeting shouldBePolite nameInput
-  locationInput <- getLine
-  putStrLn $ finalGreeting shouldBePolite nameInput locationInput
-
-#+end_src
