@@ -47,7 +47,7 @@ main = do
     where
       greeting "S" = greeting "s"
       greeting "s" = "Hello, good sir/ma'am!"
-      greeting  _  = "D'oh, wheeeeeeeee! Hi there! Wheeeeeeeeeeeeeeeeee!!!"
+      greeting _   = "D'oh, wheeeeeeeee! Hi there! Wheeeeeeeeeeeeeeeeee!!!"
 
 #+end_src
 
